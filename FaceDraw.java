@@ -2,9 +2,11 @@ import java.util.Random;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Container;
 import java.awt.Color;
 import java.util.ArrayList;
 
+// Randomize everything
 interface anyRandom {
     public static int ran(int min, int max) {
         Random ran = new Random();
@@ -12,15 +14,17 @@ interface anyRandom {
     }
 }
 
-class Face extends OvalDraw implements anyRandom {
+// Draws a Random Face at a Random Piont
+class Face extends EyeDraw implements anyRandom {
     private int xPosition;
     private int yPosition;
     private int height;
     private int width;
     private int smileStatus;
-    private OvalDraw eyesL;
-    private OvalDraw eyesR;
+    private EyeDraw eyesL;
+    private EyeDraw eyesR;
 
+    // Getters and Setters
     public int getXPosition() {
         return xPosition;
     }
@@ -59,32 +63,34 @@ class Face extends OvalDraw implements anyRandom {
         width = anyRandom.ran(100,300);
         smileStatus = anyRandom.ran(1,3);
 
+        // Eye Math and set up
         int eyeHeight = height / 5;
         int eyeWidth = eyeHeight / 2;
         int eyePositionX = xPosition + (width / 2) - (eyeWidth / 2);
         int eyePoisitonY = yPosition + (height / 3) - (eyeHeight / 2);
 
-        eyesL = new OvalDraw(eyePositionX - 25, eyePoisitonY, eyeWidth, eyeHeight);
-        eyesR = new OvalDraw(eyePositionX + 25, eyePoisitonY, eyeWidth, eyeHeight);
+        eyesL = new EyeDraw(eyePositionX - 25, eyePoisitonY, eyeWidth, eyeHeight);
+        eyesR = new EyeDraw(eyePositionX + 25, eyePoisitonY, eyeWidth, eyeHeight);
     }
 
+    // Rewritten ToString to give information on the Face
     public String toString() {
         String s = "X = " + getXPosition() + " Y = " + getYPosition() + " Width = " + getwidth() + " Height = " + getheight();
         return s;
     }
 
+    // Paints the face
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.yellow);
-        g.fillOval(xPosition, yPosition, width, height);
-        g.setColor(Color.blue);
+        g.setColor(Color.yellow);                        // Skin color
+        g.fillOval(xPosition, yPosition, width, height); // Face its self
+        g.setColor(Color.blue);                          // Eye color
         eyesR.paintComponent(g);
-        g.setColor(Color.blue);
+        g.setColor(Color.blue);                          // Resets Eye color
         eyesL.paintComponent(g);
-        
-        
-        g.drawOval(xPosition, yPosition, width, height);
+        g.drawOval(xPosition, yPosition, width, height); // Face Border
     
+        // Random smile Status
         switch(smileStatus) {
             case 1:
                 g.drawArc(xPosition+5, yPosition-((height/2)-(height/3)), width-10, height-10, -45, -90);
@@ -99,21 +105,23 @@ class Face extends OvalDraw implements anyRandom {
     }
 }
 
-class OvalDraw extends Oval {
-    public OvalDraw() {
+// Draws Eyes
+class EyeDraw extends Oval {
+    public EyeDraw() {
         super(0, 0, 0, 0);
     }
-    public OvalDraw(int positionXIn, int positionYIn, int widthIn, int heightIn) {
-        super(positionXIn, positionYIn, widthIn, heightIn);
+    public EyeDraw(int xPosition, int yPosition, int width, int height) {
+        super(xPosition, yPosition, width, height);
     }
     public void paintComponent(Graphics g) {
-        g.fillOval(getPositionX(), getPositionY(), getWidth(), getHeight());
-        g.setColor(Color.black);
+        g.fillOval(getPositionX(), getPositionY(), getWidth(), getHeight()); 
+        g.setColor(Color.black); // Sets Eye Border color
         g.drawOval(getPositionX(), getPositionY(), getWidth(), getHeight());
         
     }
 }
 
+// Panel to Make 3 to 10 faces
 class FacePanel extends JPanel implements anyRandom {
     ArrayList<Face> FaceList = new ArrayList<Face>();
     public FacePanel() {
@@ -122,11 +130,12 @@ class FacePanel extends JPanel implements anyRandom {
             FaceList.add(new Face());
         }
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         int count = 0;
-        for (Face f : FaceList){
-            count += 1;
+        for (Face f : FaceList){            // Runs through the Faces
+            count += 1;                     // Counts the Face
             f.paintComponent(g);
             System.out.print(count + ": ");
             System.out.println(f);
@@ -143,7 +152,6 @@ public class FaceDraw {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         FacePanel myFacePanel = new FacePanel();
-        myFrame.setBackground(Color.BLUE);
         myFrame.add(myFacePanel);
         myFrame.setVisible(true);
     }
