@@ -53,9 +53,8 @@ class Face extends OvalDraw implements anyRandom {
     }
 
     public Face() {
-
-        xPosition = anyRandom.ran(0, 900);
-        yPosition = anyRandom.ran(0, getHeight());
+        xPosition = anyRandom.ran(0, 700);
+        yPosition = anyRandom.ran(0, 600);
         height = anyRandom.ran(100,300);
         width = anyRandom.ran(100,300);
         smileStatus = anyRandom.ran(1,3);
@@ -63,7 +62,7 @@ class Face extends OvalDraw implements anyRandom {
         int eyeHeight = height / 5;
         int eyeWidth = eyeHeight / 2;
         int eyePositionX = xPosition + (width / 2) - (eyeWidth / 2);
-        int eyePoisitonY = yPosition + (height / 2) - (eyeHeight / 2);
+        int eyePoisitonY = yPosition + (height / 3) - (eyeHeight / 2);
 
         eyesL = new OvalDraw(eyePositionX - 25, eyePoisitonY, eyeWidth, eyeHeight);
         eyesR = new OvalDraw(eyePositionX + 25, eyePoisitonY, eyeWidth, eyeHeight);
@@ -78,9 +77,13 @@ class Face extends OvalDraw implements anyRandom {
         super.paintComponent(g);
         g.setColor(Color.yellow);
         g.fillOval(xPosition, yPosition, width, height);
-        g.setColor(Color.black);
+        g.setColor(Color.blue);
         eyesR.paintComponent(g);
+        g.setColor(Color.blue);
         eyesL.paintComponent(g);
+        
+        
+        g.drawOval(xPosition, yPosition, width, height);
     
         switch(smileStatus) {
             case 1:
@@ -105,6 +108,9 @@ class OvalDraw extends Oval {
     }
     public void paintComponent(Graphics g) {
         g.fillOval(getPositionX(), getPositionY(), getWidth(), getHeight());
+        g.setColor(Color.black);
+        g.drawOval(getPositionX(), getPositionY(), getWidth(), getHeight());
+        
     }
 }
 
@@ -118,8 +124,11 @@ class FacePanel extends JPanel implements anyRandom {
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        int count = 0;
         for (Face f : FaceList){
+            count += 1;
             f.paintComponent(g);
+            System.out.print(count + ": ");
             System.out.println(f);
         }
     }
@@ -134,6 +143,7 @@ public class FaceDraw {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         FacePanel myFacePanel = new FacePanel();
+        myFrame.setBackground(Color.BLUE);
         myFrame.add(myFacePanel);
         myFrame.setVisible(true);
     }
