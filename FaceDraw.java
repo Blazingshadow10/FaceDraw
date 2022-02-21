@@ -2,7 +2,6 @@ import java.util.Random;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Container;
 import java.awt.Color;
 import java.util.ArrayList;
 
