@@ -82,6 +82,7 @@ class Face extends EyeDraw implements anyRandom {
     // Paints the face
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         g.setColor(Color.yellow);                        // Skin color
         g.fillOval(xPosition, yPosition, width, height); // Face its self
         g.setColor(Color.blue);                          // Eye color
@@ -89,7 +90,7 @@ class Face extends EyeDraw implements anyRandom {
         g.setColor(Color.blue);                          // Resets Eye color
         eyesL.paintComponent(g);
         g.drawOval(xPosition, yPosition, width, height); // Face Border
-    
+      
         // Random smile Status
         switch(smileStatus) {
             case 1:
@@ -152,6 +153,7 @@ public class FaceDraw {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         FacePanel myFacePanel = new FacePanel();
+        myFrame.setBackground(Color.BLUE);
         myFrame.add(myFacePanel);
         myFrame.setVisible(true);
     }
